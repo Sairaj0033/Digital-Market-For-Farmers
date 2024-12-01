@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products - Farm Market</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Menu -->
+    <header>
+        <nav>
+            <div class="logo">Farm Market</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="manage-products.html" class="active">Manage Products</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="manage-products-page">
+        <div class="manage-products-container">
+            <h1>Manage Your Products</h1>
+            
+            <!-- Add New Product Form -->
+            <section class="add-product-section">
+                <h2>Add New Product</h2>
+                <form id="add-product-form" class="product-form">
+                    <div class="form-group">
+                        <label for="product-name">Product Name</label>
+                        <input type="text" id="product-name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="product-category">Category</label>
+                        <select id="product-category" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="Fruits">Fruits</option>
+                            <option value="Vegetables">Vegetables</option>
+                            <option value="Grains">Grains</option>
+                            <option value="Dairy">Dairy Products</option>
+                            <option value="Eggs">Eggs</option>
+                            <option value="Meat">Meat</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="product-price">Price (per unit)</label>
+                        <input type="number" id="product-price" name="price" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="product-unit">Unit</label>
+                        <select id="product-unit" name="unit" required>
+                            <option value="kg">Kilogram (kg)</option>
+                            <option value="piece">Piece</option>
+                            <option value="dozen">Dozen</option>
+                            <option value="liter">Liter</option>
+                            <option value="bunch">Bunch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="product-quantity">Available Quantity</label>
+                        <input type="number" id="product-quantity" name="quantity" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="product-description">Description</label>
+                        <textarea id="product-description" name="description" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="product-image">Product Image</label>
+                        <input type="file" id="product-image" name="image" accept="image/*" required>
+                        <div id="image-preview" class="image-preview"></div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Add Product</button>
+                </form>
+            </section>
+
+            <!-- Product List -->
+            <section class="product-list-section">
+                <h2>Your Products</h2>
+                <div id="farmer-products" class="product-grid">
+                    <!-- Products will be dynamically added here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="auth.js"></script>
+    <script src="products.js"></script>
+    <script>
+        // Require farmer authentication
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!auth.requireAuth()) {
+                return;
+            }
+            // Check if user is a farmer
+            if (!auth.currentUser.isFarmer) {
+                alert('Only farmers can access this page');
+                window.location.href = 'index.html';
+                return;
+            }
+            // Initialize product management
+            products.initializeManagement();
+        });
+    </script>
+</body>
+</html>
